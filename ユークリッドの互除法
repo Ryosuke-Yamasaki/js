@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>一次不定方程式</title>
+</head>
+
+<body>
+	<h1>ユーグリッドの互除法</h1>
+	<form name = "form1">
+		割る数 = <input type="text" id="astr" /> <br>
+		割られる数 = <input type="text" id="bstr" /> <br> 
+		<br>
+		<button type="button" onclick="calc();"> 計算</button><br>
+		<hr>
+		<textarea cols="70" name="result" rows="10"></textarea><br>
+	</form>
+
+	<script type="text/javascript">
+		function calc() {
+		   var A = document.getElementById("astr").value;
+		   var B = document.getElementById("bstr").value;
+		   var a = new Array(); //割る数
+		   var b = new Array(); //割られる数
+		   var q = new Array(); //商
+		   var r = new Array(); //余り
+		   
+		   a.push(A);
+		   b.push(B);
+		   
+		   if(A < B){
+			   A,B = B,A; //常に割る数＞割られる数
+		   }
+		   
+		   i = 0; //行数カウント
+
+		   q.push(A / B | 0);
+		   r.push(A % B);
+
+		   document.form1.result.value += " [" + i + "]  " + a[i] + " = " + b[i] + " x " + q[i] + " + " + r[i] + "\n"; 
+		   
+		   while (r[i] != 0){
+			   a.push(B[i]); 
+			   a.push(r[i]); 
+
+			   i++;
+
+			   q.push(a[i] / b[i] | 0);
+			   r.push(a[i] % b[i]);
+
+			   document.form1.result.value += " [" + i + "]  " + a[i] + " = " + b[i] + " x " + q[i] + " + " + r[i] + "\n";
+		   }
+		}
+	</script>
+
+</body>
+</html>
