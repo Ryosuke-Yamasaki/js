@@ -40,8 +40,8 @@
 		   document.form1.result.value += " [" + i + "]  " + a[i] + " = " + b[i] + " x " + q[i] + " + " + r[i] + "\n"; 
 		   
 		   while (r[i] != 0){
-			   a.push(B[i]); 
-			   a.push(r[i]); 
+			   a.push(b[i]); 
+			   b.push(r[i]); 
 
 			   i++;
 
