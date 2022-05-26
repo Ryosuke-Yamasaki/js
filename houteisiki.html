@@ -7,15 +7,15 @@
 
 <body>
 	<h1>一次不定方程式</h1>
-    <h2>ax + by = c の一次不定方程式の解</h2>
+    <h2>ax + by = 1 の一次不定方程式の解</h2>
 	<form name = "form1">
 		a = <input type="text" id="astr" /> <br>
 		b = <input type="text" id="bstr" /> <br> 
-        c = <input type="text" id="cstr" /> <br> 
 		<br>
 		<button type="button" onclick="calc();"> 計算</button><br>
 		<hr>
-		<textarea name="result" rows="1"></textarea><br>
+        x = <input type="text" id="xstr" /> <br>
+        y = <input type="text" id="ystr" /> <br>
 	</form>
 
 	<script type="text/javascript">
@@ -34,7 +34,7 @@
             var y1 = 1;
 
             var s , t; //xとyの解
-            var z; //符号用
+            var z = -1; //符号用
             
             while(r > 0){
                 a = b;
@@ -43,16 +43,16 @@
                 q = a / b | 0;
 
                 t = x1;
-                x1 = q * t + x0;
+                x1 = q*t + x0;
                 x0 = t;
 
                 s = y1;
-                y1 = q * s + y0;
+                y1 = q*s + y0;
                 y0 = s;
                 z = -z;
             }
-
-            document.form1.result.value +=
+            form1.xstr.value = y0*z + " + " + document.getElementById("bstr").value + "t";
+            form1.ystr.value = -x0*z + " - " + document.getElementById("astr").value + "t";
 		}
 	</script>
 
