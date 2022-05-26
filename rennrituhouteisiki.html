@@ -5,9 +5,12 @@
 	<title>JavaScriptによる計算</title>
     <script>
         MathJax = {
-          chtml: {
-            matchFontHeight: false
-          }
+            chtml: {
+                matchFontHeight: false
+            },
+            tex: {
+                inlineMath: [['\[','\]']]
+            }
         };
     </script>
     <script id="MathJax-script" async
@@ -17,15 +20,35 @@
 
 <body>
 	<h1>行列式の連立方程式</h1>
-    <h2></h2>
+    <h2>\[
+        \begin{pmatrix}
+        a & b\\
+        c & d\\
+        \end{pmatrix}
+        \begin{pmatrix}
+        x\\
+        y\\
+        \end{pmatrix}
+        \equiv
+        \begin{pmatrix}
+        i\\
+        o\\
+        \end{pmatrix}
+        \begin{pmatrix}
+        mod N\\
+        \end{pmatrix}
+        \]
+    </h2>
 	<form name = "form1">
-        <input type="text" id="a11str" size="1" /> <input type="text" id="a12str" size="1" /> <br>
-        <input type="text" id="a21str" size="1" /> <input type="text" id="a22str" size="1" /> <p>
+        a = <input type="text" id="a11str" size="1" /> b = <input type="text" id="a12str" size="1" /> <br>
+        c = <input type="text" id="a21str" size="1" /> d = <input type="text" id="a22str" size="1" /> <p>
+        i = <input type="text" id="istr" size="1" />
+        o = <input type="text" id="ostr" size="1" /> <p>
         N = <input type="text" rows="2" id="nstr" size="1" /> <p>
-		<button type="button" onclick="calc();"> 計算</button><br>
+		<button type="button" onclick="calc();"> 計算</button> <br>
 		<hr>
-        <input type="text" id="b11str" size="2" /> <input type="text" id="b12str" size="2" /> <br>
-        <input type="text" id="b21str" size="2" /> <input type="text" id="b22str" size="2" /> <br>
+        x = <input type="text" id="xstr" size="2" /> <br>
+        y = <input type="text" id="ystr" size="2" /> <br>
 	</form>
 
 	<script type="text/javascript">
@@ -34,6 +57,8 @@
             var b = Number(document.getElementById("a12str").value);
             var c = Number(document.getElementById("a21str").value);
             var d = Number(document.getElementById("a22str").value);
+            var i = Number(document.getElementById("istr").value);
+            var o = Number(document.getElementById("ostr").value);
             var n = Number(document.getElementById("nstr").value);
             var N = Number(document.getElementById("nstr").value); //最小正剰余用
 
@@ -77,10 +102,13 @@
                 z = -z;
             }
 
-            form1.b11str.value = (((d * y0*z) % N) + N) % N;
-            form1.b12str.value = (((-b * y0*z) % N) + N) % N;
-            form1.b21str.value = (((-c * y0*z) % N) + N) % N;
-            form1.b22str.value = (((a * y0*z) % N) + N) % N;
+            var A = (((d * y0*z) % N) + N) % N;
+            var B = (((-b * y0*z) % N) + N) % N;
+            var C = (((-c * y0*z) % N) + N) % N;
+            var D = (((a * y0*z) % N) + N) % N;
+            
+            form1.xstr.value = (((A * i + B * o) % N) + N) % N;
+            form1.ystr.value = (((C * i + D * o) % N) + N) % N;
 		}
 	</script>
 
