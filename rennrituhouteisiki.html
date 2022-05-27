@@ -1,116 +1,99 @@
 <!doctype html>
 <html>
-<head>
-	<meta charset="UTF-8">
-	<title>JavaScriptによる計算</title>
-    <script>
-        MathJax = {
-            chtml: {
-                matchFontHeight: false
-            },
-            tex: {
-                inlineMath: [['\[','\]']]
-            }
-        };
-    </script>
-    <script id="MathJax-script" async
-        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
-    </script>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <title>JavaScriptによる計算</title>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+    </head>
 
-<body>
-	<h1>行列式の連立方程式</h1>
-    <h2>\[
-        \begin{pmatrix}
-        a & b\\
-        c & d\\
-        \end{pmatrix}
-        \begin{pmatrix}
-        x\\
-        y\\
-        \end{pmatrix}
-        \equiv
-        \begin{pmatrix}
-        i\\
-        o\\
-        \end{pmatrix}
-        \begin{pmatrix}
-        mod N\\
-        \end{pmatrix}
-        \]
-    </h2>
-	<form name = "form1">
-        a = <input type="text" id="a11str" size="1" /> b = <input type="text" id="a12str" size="1" /> <br>
-        c = <input type="text" id="a21str" size="1" /> d = <input type="text" id="a22str" size="1" /> <p>
-        i = <input type="text" id="istr" size="1" />
-        o = <input type="text" id="ostr" size="1" /> <p>
-        N = <input type="text" rows="2" id="nstr" size="1" /> <p>
-		<button type="button" onclick="calc();"> 計算</button> <br>
-		<hr>
-        x = <input type="text" id="xstr" size="2" /> <br>
-        y = <input type="text" id="ystr" size="2" /> <br>
-	</form>
-
-	<script type="text/javascript">
-		function calc() {
-            var a = Number(document.getElementById("a11str").value);
-            var b = Number(document.getElementById("a12str").value);
-            var c = Number(document.getElementById("a21str").value);
-            var d = Number(document.getElementById("a22str").value);
-            var i = Number(document.getElementById("istr").value);
-            var o = Number(document.getElementById("ostr").value);
-            var n = Number(document.getElementById("nstr").value);
-            var N = Number(document.getElementById("nstr").value); //最小正剰余用
-
-            var A = (a * d) - (b * c); //行列式
-
-            //最小正剰余にする
-            if(A < 0){
-                A = ((A % N) + N) % N;
-            }
-
-            var r = A % n; //余り
-            var q = A / n | 0; //商
-
-            //ユークリッドの互除法の最後のxとyの解
-            var x0 = 1;
-            var y0 = 0;
-
-            //上の一個前の解
-            var x1 = q;
-            var y1 = 1;
-
-            var s , t; //xとyの解
-            var z = -1; //符号用
-
-            while(r > 0){
-                //ユークリッドの互除法
-                A = n;
-                n = r;
-                r = A % n;
-                q = A / n | 0;
-
-                //xの一般解
-                t = x1;
-                x1 = q*t + x0;
-                x0 = t;
-
-                //yの一般解
-                s = y1;
-                y1 = q*s + y0;
-                y0 = s;
-                z = -z;
-            }
-
-            var A = (((d * y0*z) % N) + N) % N;
-            var B = (((-b * y0*z) % N) + N) % N;
-            var C = (((-c * y0*z) % N) + N) % N;
-            var D = (((a * y0*z) % N) + N) % N;
+    <body>
+        <h1>行列式</h1>
+        <h2>Nを法とした逆行列(2x2)を求める</h2>
+        <h3>\(
+            A
+            A ^ {-1}
+            =1
+            \begin{pmatrix}
+            mod N\\
+            \end{pmatrix}
+            \)
+        </h3>
+        <form name = "form1">
+            行列 \(A\) について\(
+            A
+            =
+            \begin{pmatrix}
+            a & b\\
+            c & d\\
+            \end{pmatrix}
+            とする
+            \) <p>
+            \(a=\) <input type="text" id="a11str" size="1" /> <br>
+            \(b=\) <input type="text" id="a12str" size="1" /> <br>
+            \(c=\) <input type="text" id="a21str" size="1" /> <br>
+            \(d=\) <input type="text" id="a22str" size="1" /> <p>
+            \(N=\) <input type="text" rows="2" id="nstr" size="1" /> <p>
             
-            form1.xstr.value = (((A * i + B * o) % N) + N) % N;
-            form1.ystr.value = (((C * i + D * o) % N) + N) % N;
-		}
-	</script>
+            <button type="button" onclick="calc();"> 計算</button><br>
+            <hr>
+            <input type="text" id="b11str" size="2" /> <input type="text" id="b12str" size="2" /> <br>
+            <input type="text" id="b21str" size="2" /> <input type="text" id="b22str" size="2" /> <br>
+        </form>
 
-</body>
+        <script type="text/javascript">
+            function calc() {
+                var a = Number(document.getElementById("a11str").value);
+                var b = Number(document.getElementById("a12str").value);
+                var c = Number(document.getElementById("a21str").value);
+                var d = Number(document.getElementById("a22str").value);
+                var n = Number(document.getElementById("nstr").value);
+                var N = Number(document.getElementById("nstr").value); //最小正剰余用
+
+                var A = (a * d) - (b * c); //行列式
+
+                //最小正剰余にする
+                if(A < 0){
+                    A = ((A % N) + N) % N;
+                }
+
+                var r = A % n; //余り
+                var q = A / n | 0; //商
+
+                //ユークリッドの互除法の最後のxとyの解
+                var x0 = 1;
+                var y0 = 0;
+
+                //上の一個前の解
+                var x1 = q;
+                var y1 = 1;
+
+                var s , t; //xとyの解
+                var z = -1; //符号用
+
+                while(r > 0){
+                    //ユークリッドの互除法
+                    A = n;
+                    n = r;
+                    r = A % n;
+                    q = A / n | 0;
+
+                    //xの一般解
+                    t = x1;
+                    x1 = q*t + x0;
+                    x0 = t;
+
+                    //yの一般解
+                    s = y1;
+                    y1 = q*s + y0;
+                    y0 = s;
+                    z = -z;
+                }
+
+                form1.b11str.value = (((d * y0*z) % N) + N) % N;
+                form1.b12str.value = (((-b * y0*z) % N) + N) % N;
+                form1.b21str.value = (((-c * y0*z) % N) + N) % N;
+                form1.b22str.value = (((a * y0*z) % N) + N) % N;
+            }
+        </script>
+    </body>
 </html>
