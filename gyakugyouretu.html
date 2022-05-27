@@ -7,6 +7,11 @@
     </head>
 
     <body>
+        <style type="text/css">
+            body{
+                margin: 40px;
+            }
+        </style>
         <h1>行列式</h1>
         <h2>Nを法とした逆行列(2x2)を求める</h2>
         <h3>\(
@@ -32,12 +37,21 @@
             \(b=\) <input type="text" id="a12str" /> <br>
             \(c=\) <input type="text" id="a21str" /> <br>
             \(d=\) <input type="text" id="a22str" /> <p>
-            \(N=\) <input type="text" rows="2" id="nstr" /> <p>
+            \(N=\) <input type="text" id="nstr" /> <p>
             
             <button type="button" onclick="calc();"> 計算</button><br>
             <hr>
-            <input type="text" id="b11str" /> <input type="text" id="b12str" /> <br>
-            <input type="text" id="b21str" /> <input type="text" id="b22str" /> <br>
+            \(A ^ {-1}=
+            \begin{pmatrix}
+            \alpha & \beta\\
+            \gamma & \delta\\
+            \end{pmatrix}
+            とする
+            \) <p>
+            \(\alpha=\) <input type="text" id="b11str" /> <br>
+            \(\beta=\) <input type="text" id="b12str" /> <br>
+            \(\gamma=\) <input type="text" id="b21str" /> <br>
+            \(\delta=\) <input type="text" id="b22str" /> <br>
         </form>
 
         <script type="text/javascript">
