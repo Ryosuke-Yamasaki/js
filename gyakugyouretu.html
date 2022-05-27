@@ -3,32 +3,20 @@
     <head>
         <meta charset="UTF-8">
         <title>JavaScriptによる計算</title>
-        <script id="MathJax-script" async
-            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
-            MathJax.Hub.Config({
-                chtml: {
-                    matchFontHeight: false,
-                    displayAlign: left
-                },
-                tex: {
-                    inlineMath: [["\[","\]"]],
-                    processRefs: true 
-                }
-            });
-        </script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
     </head>
 
     <body>
         <h1>行列式</h1>
         <h2>Nを法とした逆行列(2x2)を求める</h2>
-        <h3>\[
+        <h3>\(
             A
             A ^ {-1}
             =1
             \begin{pmatrix}
             mod N\\
             \end{pmatrix}
-            \]
+            \)
         </h3>
         <form name = "form1">
             行列 \(A\) について\(
@@ -40,16 +28,16 @@
             \end{pmatrix}
             とする
             \) <p>
-            \(a=\) <input type="text" id="a11str" size="1" /> <br>
-            \(b=\) <input type="text" id="a12str" size="1" /> <br>
-            \(c=\) <input type="text" id="a21str" size="1" /> <br>
-            \(d=\) <input type="text" id="a22str" size="1" /> <p>
-            \(N=\) <input type="text" rows="2" id="nstr" size="1" /> <p>
+            \(a=\) <input type="text" id="a11str" /> <br>
+            \(b=\) <input type="text" id="a12str" /> <br>
+            \(c=\) <input type="text" id="a21str" /> <br>
+            \(d=\) <input type="text" id="a22str" /> <p>
+            \(N=\) <input type="text" rows="2" id="nstr" /> <p>
             
             <button type="button" onclick="calc();"> 計算</button><br>
             <hr>
-            <input type="text" id="b11str" size="2" /> <input type="text" id="b12str" size="2" /> <br>
-            <input type="text" id="b21str" size="2" /> <input type="text" id="b22str" size="2" /> <br>
+            <input type="text" id="b11str" /> <input type="text" id="b12str" /> <br>
+            <input type="text" id="b21str" /> <input type="text" id="b22str" /> <br>
         </form>
 
         <script type="text/javascript">
