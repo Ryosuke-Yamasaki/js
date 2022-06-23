@@ -9,8 +9,9 @@
         <h1>RSA暗号</h1>
         
         <form name = "form1">
-            N = <input type="text" id="Nstr" /> <br>	
-            n = <input type="text" id="nstr" /> <br>	
+            使用する全文字 → <input type="text" id="Alstr" /> <p>	
+            p = <input type="text" id="pstr" /> <br>
+            q = <input type="text" id="qstr" /> <br>
             e = <input type="text" id="estr" /> <p>
             暗号化する文字列 → <input type="text" id="Xstr" /> <p>	
 	
@@ -24,14 +25,40 @@
         <script type="text/javascript">
             function calc() {
                 var X = document.getElementById("Xstr").value
-                var N = document.getElementById("Nstr").value
-                var n = document.getElementById("nstr").value
+                var p = document.getElementById("pstr").value
+                var q = document.getElementById("qstr").value
                 var e = document.getElementById("estr").value
-                var Alphabet = new Array ("A","I","U","E","O","K","S","N")
+                var Alphabet = document.getElementById("Alstr").value
                 var P = 0
+
+                //素数判定
+                function primejuge(num){
+                    if(num == 1){
+                        return "素数ではありません"
+                    }else if(num == 2){
+                        return num
+                    }else{
+                        for(var i = 2;i < num;i ++){
+                            if(num % i == 0){
+                                return "素数ではありません"
+                            }
+                            if(i + 1 == num){
+                                return num
+                            }
+                        }
+                    }
+                }
+                form1.pstr.value = primejuge(p)
+                form1.qstr.value = primejuge(q)
+
+                //nを求める
+                var n = p * q
                 
+                //使用する文字数を求める
+                var N = Alphabet.length
+
                 //平文を数字に置き換える
-                for(var i = 0;i < X.length;i ++){ //i文字目の数値化
+                for(var i = 0;i < X.length;i ++){
                     for(var j = 0;j < N;j ++){
                         if(X.charAt(i) == Alphabet[j]){
                             P += j * (N ** (X.length - 1 - i))
@@ -51,38 +78,38 @@
                     form1.Cstr.value += Alphabet[C.charAt(l)]
                 }
 
+                //最小公倍数Lを求める関数
+                function lcm(a , b){
+                    var g = (n , m) => m ? g(m , n % m) : n
+                    return a * b / g(a, b)
+                }
+
                 //復号化鍵を求める
-                var a = e
-                var b = 572
-                var r = a % b
-                var Q = a / b | 0
+                p -= 1
+                q -= 1
 
-                var x0 = 1
+                var b = lcm(p , q)
+                var r = e % b
+                var Q = e / b | 0
+
                 var y0 = 0
-
-                var x1 = Q
                 var y1 = 1
 
-                var s , t
+                var s
                 var z = -1
-            
-                while(r > 0){
-                    a = b
-                    b = r
-                    r = a % b
-                    Q = a / b | 0
 
-                    t = x1
-                    x1 = Q*t + x0
-                    x0 = t
+                while(r > 0){
+                    e = b
+                    b = r
+                    r = e % b
+                    Q = e / b | 0
 
                     s = y1
-                    y1 = Q*s + y0
+                    y1 = Q * s + y0
                     y0 = s
                     z = -z
                 }
-                var d = y0 * z
-                form1.dstr.value = d
+                form1.dstr.value = y0 * z
             }
         </script>
     </body>
