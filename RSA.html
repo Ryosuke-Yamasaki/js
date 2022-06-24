@@ -12,6 +12,7 @@
             使用する全文字 → <input type="text" id="Alstr" /> <p>	
             p = <input type="text" id="pstr" /> <br>
             q = <input type="text" id="qstr" /> <br>
+            n = <input type="text" id="nstr" /> <br>
             e = <input type="text" id="estr" /> <p>
             暗号化する文字列 → <input type="text" id="Xstr" /> <p>	
 	
@@ -53,6 +54,7 @@
 
                 //nを求める
                 var n = p * q
+                form1.nstr.value = n
                 
                 //使用する文字数を求める
                 var N = Alphabet.length
@@ -78,38 +80,33 @@
                     form1.Cstr.value += Alphabet[C.charAt(l)]
                 }
 
-                //最小公倍数Lを求める関数
+                //最小公倍数を求める関数
                 function lcm(a , b){
                     var g = (n , m) => m ? g(m , n % m) : n
-                    return a * b / g(a, b)
+                    return a * b / g(a , b)
                 }
 
                 //復号化鍵を求める
-                p -= 1
-                q -= 1
+                function exGCD(a , b , r , q , y0 , y1 , s , z){
+                    r = a % b
+                    q = a / b | 0
+                    y0 = 0
+                    y1 = 1
+                    z = -1
+                    while(r != 0){
+                        a = b
+                        b = r
+                        r = a % b
+                        q = a / b | 0
 
-                var b = lcm(p , q)
-                var r = e % b
-                var Q = e / b | 0
-
-                var y0 = 0
-                var y1 = 1
-
-                var s
-                var z = -1
-
-                while(r > 0){
-                    e = b
-                    b = r
-                    r = e % b
-                    Q = e / b | 0
-
-                    s = y1
-                    y1 = Q * s + y0
-                    y0 = s
-                    z = -z
+                        s = y1
+                        y1 = q * s + y0
+                        y0 = s
+                        z = -z                
+                    }
+                    return y0 * z
                 }
-                form1.dstr.value = y0 * z
+                form1.dstr.value = exGCD(e , lcm(p - 1 , q - 1))
             }
         </script>
     </body>
